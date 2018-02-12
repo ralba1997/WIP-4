@@ -7,12 +7,13 @@ print('\n Two players play the following game with a nucleotide sequence of leng
       '\n WHO WILL WIN?')
 
 def NucleotideGame(Nucleotide_Sequence): #take as input a random nucleotide sequence
+    Nucleo_Seq_upper = Nucleotide_Sequence.upper()
     nA = 0
     nT = 0
     nC = 0
     nG = 0
 
-    for i in Nucleotide_Sequence:
+    for i in Nucleo_Seq_upper:
         if i == 'A':
             nA += 1
         elif i == 'T':
@@ -26,9 +27,9 @@ def NucleotideGame(Nucleotide_Sequence): #take as input a random nucleotide sequ
     values = [nA, nT, nC, nG]
     values.sort()
 
-    # Case1: Impossible game
-    if total == 1:
-        print("Impossible game")
+    # Case1: Only one non-empty heap
+    if values[:3] == [0,0,0]:
+        return "IMPOSSIBLE GAME"
 
     # Case2: If "total" is a multiple of 3, the second player wins the game,
     # but we have 18 exception where the first player wins and where the three smallest heap are:
@@ -42,18 +43,18 @@ def NucleotideGame(Nucleotide_Sequence): #take as input a random nucleotide sequ
             if values[:3] == exception:
                 is_exception = 1
         if is_exception == 1:
-            print("FIRST PLAYER WINS")
+            return "FIRST PLAYER WINS"
         else:
-            print("SECOND PLAYER WINS")
+            return "SECOND PLAYER WINS"
 
     #Case3: If "total" is a multiple of 3 +1, the first player wins because he is able to put the other player in a 'total = multiple of 3' situation.
     #In this case we have an exception where the second player is able to win and when the three smallest heap are (1,1,1)
     if total % 3 == 1:
         exception = [1,1,1]
         if values[:3] == exception:
-            print("SECOND PLAYER WINS")
+            return "SECOND PLAYER WINS"
         else:
-            print("FIRST PLAYER WINS")
+            return "FIRST PLAYER WINS"
 
     # Case4: If "total" is a multiple of 3 +2, the first player wins because he is able to put the other player in a 'total = multiple of 3' situation.
     #In this case we have 6 exception where the second player is able to win and when the three smallest heap are:
@@ -65,10 +66,10 @@ def NucleotideGame(Nucleotide_Sequence): #take as input a random nucleotide sequ
             if values[:3] == exception:
                 is_exception = 1
         if is_exception == 1:
-            print("SECOND PLAYER WINS")
+            return "SECOND PLAYER WINS"
         else:
-            print("FIRST PLAYER WINS")
+            return "FIRST PLAYER WINS"
 
 
 
-NucleotideGame(input("Please insert a nucleotide sequence:"))
+print(NucleotideGame(input("Please insert a nucleotide sequence:")))
