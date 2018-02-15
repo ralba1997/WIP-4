@@ -27,14 +27,18 @@ def NucleotideGame(Nucleotide_Sequence): #take as input a random nucleotide sequ
     values = [nA, nT, nC, nG]
     values.sort()
 
-    # Case1: Only one non-empty heap
-    if values[:3] == [0,0,0]:
+    # Case0: All the heaps are empty
+    if values == [0,0,0,0]:
         return "IMPOSSIBLE GAME"
 
+    # Case1: Only one non-empty heap
+    if values[:3] == [0,0,0] and values[3] != 0:
+        return "FIRST PLAYER LOSES"
+
     # Case2: If "total" is a multiple of 3, the second player wins the game,
-    # but we have 18 exception where the first player wins and where the three smallest heap are:
-    #(0,0,1); (0,0,2); (0,1,1); (0,1,2); (0,1,3); (0,2,2); (0,2,3); (1,1,1); (1,1,2);
-    #(1,1,3); (1,2,2); (1,2,3); (1,2,4); (1,3,3); (2,2,2); (2,2,3); (2,2,4); (2,3,3).
+    # but there are 18 exceptions where the first player wins and where the three smallest heaps are:
+    # (0,0,1); (0,0,2); (0,1,1); (0,1,2); (0,1,3); (0,2,2); (0,2,3); (1,1,1); (1,1,2);
+    # (1,1,3); (1,2,2); (1,2,3); (1,2,4); (1,3,3); (2,2,2); (2,2,3); (2,2,4); (2,3,3).
     if total % 3 == 0:
         is_exception = 0
         exceptions = [[0,0,1], [0,0,2], [0,1,1], [0,1,2], [0,1,3], [0,2,2], [0,2,3], [1,1,1], [1,1,2],
@@ -47,8 +51,8 @@ def NucleotideGame(Nucleotide_Sequence): #take as input a random nucleotide sequ
         else:
             return "SECOND PLAYER WINS"
 
-    #Case3: If "total" is a multiple of 3 +1, the first player wins because he is able to put the other player in a 'total = multiple of 3' situation.
-    #In this case we have an exception where the second player is able to win and when the three smallest heap are (1,1,1)
+    # Case3: If "total" is a multiple of 3 + 1, the first player wins because he is able to put the other player in a 'total = multiple of 3' situation.
+    # In this case there is an exception where the second player is able to win and when the three smallest heaps are (1,1,1)
     if total % 3 == 1:
         exception = [1,1,1]
         if values[:3] == exception:
@@ -56,9 +60,9 @@ def NucleotideGame(Nucleotide_Sequence): #take as input a random nucleotide sequ
         else:
             return "FIRST PLAYER WINS"
 
-    # Case4: If "total" is a multiple of 3 +2, the first player wins because he is able to put the other player in a 'total = multiple of 3' situation.
-    #In this case we have 6 exception where the second player is able to win and when the three smallest heap are:
-    #(0,1,2); (0,2,2); (1,2,2); (1,2,3); (2,2,2); (2,2,3).
+    # Case4: If "total" is a multiple of 3 + 2, the first player wins because he is able to put the other player in a 'total = multiple of 3' situation.
+    # In this case there are 6 exceptions where the second player is able to win and when the three smallest heaps are:
+    # (0,1,2); (0,2,2); (1,2,2); (1,2,3); (2,2,2); (2,2,3).
     if total % 3 == 2:
         is_exception = 0
         exceptions = [[0, 1, 2], [0, 2, 2], [1, 2, 2], [1, 2, 3], [2, 2, 2], [2, 2, 3]]
